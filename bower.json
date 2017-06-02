@@ -1,0 +1,47 @@
+{
+  "name": "sb-admin",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "latest",
+    "json3": "latest",
+    "es5-shim": "latest",
+    "angular-route": "latest",
+    "font-awesome": "latest",
+    "angular-bootstrap": "1.2.x",
+    "oclazyload": "latest",
+    "angular-loading-bar": "latest",
+    "angular-ui-router": "latest",
+    "metisMenu": "latest",
+    "angular-chart.js": "latest",
+    "ng-table": "latest",
+    "angular-ui-grid": "latest",
+    "angular-cache": "latest",
+    "toastr": "latest",
+    "angular-daterangepicker": "latest",
+    "moment": "latest",
+    "angucomplete-alt": "latest",
+    "bootstrap-switch": "latest",
+    "bootstrap3-dialog": "latest",
+    "simple-line-icons": "latest",
+    "jquery.uniform": "latest",
+    "select2": "latest",
+    "bootstrap-hover-dropdown": "latest",
+    "slimscroll": "latest",
+    "blockui": "latest",
+    "jquery-validation": "latest",
+    "zingchart": "latest",
+    "zingchart-angularjs": "latest",
+    "clipboard": "latest",
+    "ngclipboard": "~1.1.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "latest",
+    "angular-scenario": "latest"
+  },
+  "resolutions": {
+    "bootstrap": "3.3.6",
+    "angular": "^1.4.x",
+    "jquery": "^1.11.3"
+  },
+  "appPath": "app"
+}

@@ -31,41 +31,8 @@ app.config(['$stateProvider','$urlRouterProvider', '$ocLazyLoadProvider',
                                     'ui/directives/header/header.js',
                                     'ui/directives/header/header-notification/header-notification.js',
                                     'ui/directives/sidebar/sidebar.js'
-
                                    ]
-                            }),
-                            $ocLazyLoad.load(
-                                {
-                                    name: 'toggle-switch',
-                                    files: ["../bower_component/angular-toggle-switch/angular-toggle-switch.min.js",
-                                        "../bower_component/angular-toggle-switch/angular-toggle-switch.css"
-                                    ]
-                                }),
-                            $ocLazyLoad.load(
-                                {
-                                    name: 'ngAnimate',
-                                    files: ['../bower_component/angular-animate/angular-animate.js']
-                                }),
-                            $ocLazyLoad.load(
-                                {
-                                    name: 'ngCookies',
-                                    files: ['../bower_component/angular-cookies/angular-cookies.js']
-                                }),
-                            $ocLazyLoad.load(
-                                {
-                                    name: 'ngResource',
-                                    files: ['../bower_component/angular-resource/angular-resource.js']
-                                }),
-                            $ocLazyLoad.load(
-                                {
-                                    name: 'ngSanitize',
-                                    files: ['../bower_component/angular-sanitize/angular-sanitize.js']
-                                }),
-                            $ocLazyLoad.load(
-                                {
-                                    name: 'ngTouch',
-                                    files: ['../bower_component/angular-touch/angular-touch.js']
-                                });
+                            })
                     }
                 }
             })
