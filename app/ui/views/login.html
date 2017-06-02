@@ -1,0 +1,24 @@
+<head>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="307128262312-47cj4vevso8sopthjs0jt1psaf0ecfg4.apps.googleusercontent.com">
+</head>
+<div class="login">
+
+    <div class="content" ng-controller="loginController">
+
+        <div class="logo">
+            <a href="../../../index.html">
+                <!--<img  style="height: 260px; width: 110%; background-color: powderblue;" class="img img-responsive" src="https://riptide.blob.core.windows.net/images/header%20logo.png" alt="" /> </a>-->
+                <img class="img img-responsive" src="https://riptide.blob.core.windows.net/images/header%20logo.png" alt="" /> </a>
+        </div>
+
+        <form class="login-form" role="form" ng-show="signInForm" ng-controller="loginController">
+            <h3 class="form-title font-green">Sign In</h3>
+            <div class="form-group"></div>
+            <div class="form-actions" align="center">
+                <button type="submit" class="btn green uppercase" ng-click="login()">Login Using Gmail</button>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,76 @@
+
+<div class="col-lg-10" style="margin-left: 20px" id="outerDiv">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{heading}}
+        </div>
+        <div class="panel-body">
+            <div ng-show="wishListPage" class="col-lg-10" style="margin-left: 20px">
+                <div class="row">
+                    <table class="table table-striped table-bordered table-hover">
+                        <tr>
+                            <th>StyleCode</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Edit Cart</th>
+                        </tr>
+                        <tr ng-repeat="item in allOrderItems">
+                            <td>{{item.Sku}}</td>
+                            <td><input style="height:30px;width:50px" type="number" ng-model="item.Quantity" name="qty"></td>
+                            <td>{{item.ItemCost.Value}}</td>
+                            <!--td style="max-width: 1000px">
+                                <div id="img" style="margin-right: 5px; text-align: center; vertical-align: bottom;">
+                                    <label>
+                                        <a href="" ng-click="zoomImage(data.Image.replace('thumbnails','images'))">
+                                            <img src="{{data.Image}}" style=" max-height: 80px; max-width:80px;"/><br/>
+                                        </a>
+                                    </label>
+                                </div>
+                            </td-->
+
+                            <td><button id="{{'buttonClicked'+$index}}" ng-click="remove(item.Sku,'buttonClicked'+$index)" class="btn-danger">Remove</button></td>
+                        </tr>
+                    </table>
+                    <div class="row">
+                        <button style="align-items: center;margin-left: 20px" ng-click="saveOrder()" class="btn btn-success" ng-disabled="isSaveButtonDisabled">Place Order</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-show="buyerDetails">
+                <form role="form" name="buyerDetailForm">
+                    <table class="table table-bordered table-striped table-hover">
+                        <tr>
+                            <td><label for="name">Name</label></td>
+                            <td><input type="text" ng-model="buyerName" class="form-control" required id="name"></td>
+                            <td><label for="email">Email</label> </td>
+                            <td><input type="email" id="email" ng-model="buyerEmail" class="form-control" isreadonly="true" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="addressName">Address</label></td>
+                            <td><input type="text" ng-model="addressName" class="form-control" required id="addressName"></td>
+                            <td><label for="streetAddress">Street</label> </td>
+                            <td><input type="text" ng-model="streetAddress" class="form-control" required id="streetAddress"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="city">City</label> </td>
+                            <td><input type="text" ng-model="city" class="form-control" required id="city"></td>
+                            <td><label for="country">Country</label> </td>
+                            <td><input type="text" ng-model="country" class="form-control" required id="country"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="zipCode">Zip Code</label> </td>
+                            <td><input type="text" ng-model="zipCode" class="form-control" required id="zipCode"></td>
+                            <td><label for="mobile">Contact No.</label></td>
+                            <td><input type="text" class="form-control" id="mobile" required ng-model="buyerPhone"></td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button ng-click="submitBuyerDetails()" type="submit" class="btn btn-success btn-md" ng-disabled="buyerDetailForm.$invalid">Submit</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+</div>
+</div>
