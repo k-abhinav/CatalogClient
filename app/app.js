@@ -1,14 +1,14 @@
 'use strict';
 
 var app=angular
-        .module('sbAdminApp',[
-            'catalog.keyword',
-            'oc.lazyLoad',
-            'ui.router',
-            'angular-loading-bar',
-            'ngclipboard','ui.grid', 'ui.grid.pagination', 'ui.grid.resizeColumns', 'ui.grid.selection','ui.grid.autoResize',
-             'ui.grid.cellNav','ui.grid.importer'
-        ]);
+    .module('sbAdminApp',[
+        'catalog.keyword',
+        'oc.lazyLoad',
+        'ui.router',
+        'angular-loading-bar',
+        'ngclipboard','ui.grid', 'ui.grid.pagination', 'ui.grid.resizeColumns', 'ui.grid.selection','ui.grid.autoResize',
+        'ui.grid.cellNav','ui.grid.importer'
+    ]);
 
 app.config(['$stateProvider','$urlRouterProvider', '$ocLazyLoadProvider',
     function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
@@ -31,8 +31,16 @@ app.config(['$stateProvider','$urlRouterProvider', '$ocLazyLoadProvider',
                                     'ui/directives/header/header.js',
                                     'ui/directives/header/header-notification/header-notification.js',
                                     'ui/directives/sidebar/sidebar.js'
-                                   ]
-                            })
+
+                                ]
+                            }),
+                            $ocLazyLoad.load(
+                                {
+                                    name: 'toggle-switch',
+                                    files: ["../bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
+                                        "../bower_components/angular-toggle-switch/angular-toggle-switch.css"
+                                    ]
+                                })
                     }
                 }
             })
@@ -62,9 +70,9 @@ app.run(['$state', '$rootScope', '$location', function ($state, $rootScope, $loc
     $rootScope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
         // if route requires auth and user is not logged in
         /*if (server.PartnerPrefix.length == 0 && to.name != 'login') {
-            // redirect back to login
-            $location.path('/login');
-        }*/
+         // redirect back to login
+         $location.path('/login');
+         }*/
         if(to.name === "login" || from.name === '')
             $location.path('/login');
     });

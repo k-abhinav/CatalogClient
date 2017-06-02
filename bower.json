@@ -32,7 +32,8 @@
     "zingchart": "latest",
     "zingchart-angularjs": "latest",
     "clipboard": "latest",
-    "ngclipboard": "~1.1.1"
+    "ngclipboard": "~1.1.1",
+    "angular-toggle-switch": "latest"
   },
   "devDependencies": {
     "angular-mocks": "latest",
