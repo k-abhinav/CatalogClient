@@ -10,7 +10,7 @@ app.controller('loginController',['$scope','$state','server', function ($scope,$
     {
         gapi.load('auth2',function () {
             $scope.auth=gapi.auth2.init({
-                client_id: '307128262312-47cj4vevso8sopthjs0jt1psaf0ecfg4.apps.googleusercontent.com',
+                client_id: '248397809554-t1802etsfqhi88j2f4nqflgd6k75nl99.apps.googleusercontent.com',
                 scope: 'email',
                 fetch_basic_profile: true
             });
