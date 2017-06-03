@@ -60,20 +60,16 @@ app.config(['$stateProvider','$urlRouterProvider', '$ocLazyLoadProvider',
             })
     }]);
 
-app.loginData ={};
-
-app.config(function ($httpProvider) {
-    //$httpProvider.interceptors.push('authInterceptorService');
-});
 
 app.run(['$state', '$rootScope', '$location', function ($state, $rootScope, $location) {
     $rootScope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
-        // if route requires auth and user is not logged in
-        /*if (server.PartnerPrefix.length == 0 && to.name != 'login') {
-         // redirect back to login
-         $location.path('/login');
-         }*/
-        if(to.name === "login" || from.name === '')
+        /*if(to.name === "login" || from.name === ''){
             $location.path('/login');
+            $state.go('login');
+        }*/
+        if(to.name === 'login' || from.name === ''){
+            $location.path('/login');
+        }
     });
+
 }]);
