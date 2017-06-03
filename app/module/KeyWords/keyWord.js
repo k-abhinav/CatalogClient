@@ -33,7 +33,7 @@ function keywordSearching() {
             $scope.buyerInfo = res;
 
         },function (er) {
-            alert("Could not get buyer from db");
+            alert("Could not get buyer from db.Error : "+er.message);
         });
 
         var success=function (res) {
@@ -123,15 +123,13 @@ function keywordSearching() {
 
         $scope.addToCart = function (code,qty,thumbUri,price,id) {
 
-
-
-            let newWishlist = {Code:code,Quantity:qty,Image : thumbUri,Price:price};
-            let existingSku = $scope.wishList.filter(f=>f.Code === code)[0];
+            var newWishlist = {Code:code,Quantity:qty,Image : thumbUri,Price:price};
+            var existingSku = $scope.wishList.filter(f=>f.Code === code)[0];
 
             if(existingSku === undefined)
                 $scope.wishList.push(newWishlist);
             else {
-                let index = $scope.wishList.indexOf(existingSku);
+                var index = $scope.wishList.indexOf(existingSku);
                 $scope.wishList.splice(index,1);
                 $scope.wishList.push(newWishlist);
             }
@@ -156,7 +154,7 @@ function keywordSearching() {
 
             catalogService.addItemsToCart(newOrder).then(function (res) {
                logger.success("Added To Cart");
-                let btn = document.getElementById(id);
+                var btn = document.getElementById(id);
                 btn.style.backgroundColor = '#F1948A';
             },function (er) {
                 logger.error("Error : "+er.message);
