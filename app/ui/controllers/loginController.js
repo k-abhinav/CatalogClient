@@ -49,7 +49,7 @@ app.controller('loginController',['$scope','$state','server', function ($scope,$
             $state.go('catalogClient');
         };
         var error =function (e) {
-            alert(e);
+            alert(e.error);
         };
         $scope.auth.signIn().then(success, error);
     };
