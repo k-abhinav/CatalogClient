@@ -14,22 +14,33 @@ function PreviousOrders() {
         scope:{}
     };
 
-    orderCtrl.$inject=['$scope','catalogService','server','logger','uiGridConstants'];
+    orderCtrl.$inject=['$scope','catalogService','server','logger','uiGridConstants','$rootScope'];
     return directive;
 
-    function orderCtrl($scope,catalogService,server,logger,uiGridConstants) {
+    function orderCtrl($scope,catalogService,server,logger,uiGridConstants,$rootScope) {
         var email = server.userInfo.Email;
-        var columns = [{name:'Sku',displayName : 'Item Code'},{name:'Quantity',displayName : 'Quantity'},
+        var requestData = [email];
+        $scope.event1 = 'OrderSelected';
+        var variants = [];
+        $scope.allOrderItems = [];
+        /*var columns = [{name:'Sku',displayName : 'Item Code'},{name:'Quantity',displayName : 'Quantity'},
             {name:'Status',displayName : 'Status'},
             {name:'OrderDate',displayName : 'OrderDate'},{name:'Price',displayName : 'Price (Per Unit)'},
             {name:'Image',cellTemplate:'<div id="img"><a href="{{row.entity.Image}}" target="_blank"><img src="{{COL_FIELD}}" style="vertical-align: bottom;max-height:100%;max-width:100%;" align="middle"/></a></div>'}
         ];
+*/
+        var orderColumns = [{name:'CreatedDate',displayName : 'Created Date'},
+            {name:'Status',displayName : 'Status'},{name:'Buyer.EmailId',displayName : 'Buyer Email'}
+        ];
 
-        $scope.gridOptions = {
+        var orderItemColumns = [{name:'Sku'},{name:'Quantity'},
+            {name:'ItemCost.Value',displayName : 'Price (Per Unit)'}];
+
+        $scope.gridOptions1 = {
             enableFiltering: true,
             enableColumnResizing: true,
             enableSorting: true,
-            columnDefs:  columns,
+            columnDefs:  orderColumns,
             showGroupPanel: true,
             enableGridMenu:true,
             multiSelect : false,
@@ -43,7 +54,7 @@ function PreviousOrders() {
             onRegisterApi: function(gridApi){
                 $scope.gridApi = gridApi;
                 $scope.gridApi.selection.on.rowSelectionChanged($scope, function(row, e) {
-                    publishService.publish($scope.event, row.entity);
+                    $rootScope.$broadcast($scope.event1, row.entity);
                 });
                 $scope.gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
                     paginationOptions.pageNumber = newPage;
@@ -54,17 +65,43 @@ function PreviousOrders() {
                     $scope.gridApi.selection.getSelectedRows();
                 };
 
-                angular.element(document.getElementsByClassName('home-grid')[0]).css('height', '500px');
+                angular.element(document.getElementsByClassName('home-grid1')[0]).css('height', '500px');
+            }
+        };
+        $scope.gridOptions2 = {
+            enableFiltering: true,
+            enableColumnResizing: true,
+            enableSorting: true,
+            columnDefs:  orderItemColumns,
+            showGroupPanel: true,
+            enableGridMenu:true,
+            multiSelect : false,
+            paginationPageSize : 10,
+            importerDataAddCallback: function( grid, newObjects ) {
+                $scope.griddata =  newObjects ;
+            },
+            exporterCsvColumnSeparator:',',
+            exporterCsvFilename:'data.csv',
+            rowHeight:60,
+            onRegisterApi: function(gridApi){
+                $scope.gridApi = gridApi;
+                $scope.gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+                    paginationOptions.pageNumber = newPage;
+                    paginationOptions.pageSize = pageSize;
+                    $scope.pagechanged({pagesize:pageSize, pagenumber:newPage});
+                });
+                $scope.selectedRows = function(){
+                    $scope.gridApi.selection.getSelectedRows();
+                };
+
+                angular.element(document.getElementsByClassName('home-grid2')[0]).css('height', '500px');
             }
         };
 
-        var variants = [];
-        $scope.allOrderItems = [];
-        var requestData = [email];
-
-        catalogService.GetOrdersForBuyer(requestData,"SM-CTL","all").then(function (res) {
-            if(res.length > 0){
-                var confirmedOrders = res.filter(f=>f.Status.toLowerCase() !== "created");
+        catalogService.GetOrdersForBuyer(requestData,"SM-CTL","all").then(function (response) {
+            if(response.length > 0){
+                response = JSON.resolveReferences(response);
+                var confirmedOrders = response.filter(f=>f.Status.toLowerCase() !== "created");
                 if(confirmedOrders.length === 0){
                     alert("There is no previous orders.");
                     $scope.allOrdersPage = false;
@@ -78,28 +115,34 @@ function PreviousOrders() {
                 catalogService.GetProductVariantsByCodes(variants).then(function (res) {
                     for(var i=0;i<confirmedOrders.length;i++){
                         for(var j=0;j<confirmedOrders[i].Items.length;j++){
-                             var variantImage = res.filter(r=>r.code.toLowerCase() === confirmedOrders[i].Items[j].Sku.toLowerCase())[0];
-                             if(variantImage !== undefined && variantImage.images[0] !== null && (variantImage.images[0].publicUri !== null))
-                                 $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : confirmedOrders[i].Items[j].Sku,
-                                 Quantity : confirmedOrders[i].Items[j].Quantity,OrderDate:confirmedOrders[i].Items[j].OrderDate,
-                                 Price:confirmedOrders[i].Items[j].ItemCost.Value,Image:variantImage.images[0].publicUri});
+                            var variantImage = res.filter(r=>r.code.toLowerCase() === confirmedOrders[i].Items[j].Sku.toLowerCase())[0];
+                            if(variantImage !== undefined && variantImage.images[0] !== null && (variantImage.images[0].publicUri !== null))
+                                $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : confirmedOrders[i].Items[j].Sku,
+                                    Quantity : confirmedOrders[i].Items[j].Quantity,OrderDate:confirmedOrders[i].Items[j].OrderDate,
+                                    Price:confirmedOrders[i].Items[j].ItemCost.Value,Image:variantImage.images[0].publicUri},
+                                    {OrderId:confirmedOrders[i].Id});
 
-                             else
-                                 $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : confirmedOrders[i].Items[j].Sku,
-                                 Quantity : confirmedOrders[i].Items[j].Quantity,OrderDate:confirmedOrders[i].Items[j].OrderDate,
-                                 Price:confirmedOrders[i].Items[j].ItemCost.Value,Image:"https://riptide.blob.core.windows.net/thumbnails/noimage.jpg"});
+                            else
+                                $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : confirmedOrders[i].Items[j].Sku,
+                                    Quantity : confirmedOrders[i].Items[j].Quantity,OrderDate:confirmedOrders[i].Items[j].OrderDate,
+                                    Price:confirmedOrders[i].Items[j].ItemCost.Value,Image:"https://riptide.blob.core.windows.net/thumbnails/noimage.jpg"},{OrderId:confirmedOrders[i].Id});
                         }
                     }
-                    $scope.gridOptions.data = $scope.allOrderItems;
+                    $scope.gridOptions1.data = confirmedOrders;
                     $scope.allOrdersPage = true;
                 },function (er) {
                     alert("Could not get image.Error : " + er.message);
                 });
-
             }
-            else alert("There is no previous orders.");
+
+            else alert("There is no confirmed orders.");
         });
 
+        $scope.$on('OrderSelected',function (event,data) {
+            //var orderItems =  $scope.allOrderItems.filter(f=>f.OrderId === data.Id);
+            $scope.gridOptions2.data = data.Items;
+            $scope.orderItemPage = true;
+        })
     }
 }
 

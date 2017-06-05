@@ -1,5 +1,5 @@
 <div ng-show="allOrdersPage">
-    <div class="row col-lg-10"  style="margin-left: 20px">
+    <div class="row col-lg-12"  style="margin-left: -5px">
         <!--table class="table table-striped table-bordered table-hover">
             <tr>
                 <th>Sku</th>
@@ -14,8 +14,18 @@
                 <td>{{row.ItemCost.Value}}</td>
             </tr>
         </table-->
-        <div id="home-grid" class="home-grid" ui-grid="gridOptions"
-             ui-grid-exporter ui-grid-selection ui-grid-pagination ui-grid-auto-resize  ui-grid-resize-columns></div>
+        <!--div id="home-grid" class="home-grid" ui-grid="gridOptions"
+             ui-grid-exporter ui-grid-selection ui-grid-pagination ui-grid-auto-resize  ui-grid-resize-columns></div-->
+
+        <div class="col-lg-6">
+            <div id="home-grid1" class="home-grid1" ui-grid="gridOptions1"
+                 ui-grid-exporter ui-grid-selection ui-grid-pagination ui-grid-auto-resize  ui-grid-resize-columns></div>
+        </div>
+
+        <div class="col-lg-6" ng-show="orderItemPage">
+            <div id="home-grid2" class="home-grid2" ui-grid="gridOptions2"
+                 ui-grid-exporter ui-grid-selection ui-grid-pagination ui-grid-auto-resize  ui-grid-resize-columns></div>
+        </div>
     </div>
 
 </div>
