@@ -65,6 +65,11 @@ function PreviousOrders() {
         catalogService.GetOrdersForBuyer(requestData,"SM-CTL","all").then(function (res) {
             if(res.length > 0){
                 var confirmedOrders = res.filter(f=>f.Status.toLowerCase() !== "created");
+                if(confirmedOrders.length === 0){
+                    alert("There is no previous orders.");
+                    $scope.allOrdersPage = false;
+                    return;
+                }
                 for(var i=0;i<confirmedOrders.length;i++){
                     for(var j=0;j<confirmedOrders[i].Items.length;j++){
                         variants.push(confirmedOrders[i].Items[j].Sku);

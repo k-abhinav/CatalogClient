@@ -89,14 +89,9 @@ function keywordSearching() {
             var space = ' ';
             var and = 'and';
 
-            if(keyword.trim().includes(and)){
-                $scope.modifiedKeyword = keyword.replace(/and/g, "");
-            }
-
-            if(keyword.trim().includes(space)){
-                $scope.modifiedKeyword = $scope.modifiedKeyword.replace(space, " and ");
-            }
-            else $scope.modifiedKeyword = keyword;
+            var keywordWithoutAnd = keyword.replace(new RegExp(and, "g"),"");
+            var keywordWithoutMultipleSpaces = keywordWithoutAnd.replace(/ +/g, ' ');
+            $scope.modifiedKeyword = keywordWithoutMultipleSpaces.replace(new RegExp(space, "g")," and " );
 
             catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
         };
@@ -144,7 +139,7 @@ function keywordSearching() {
                 SellingAccountPrefix : 'SM-CTL'
             };
 
-            if($scope.buyerInfo === null){
+            if($scope.buyerInfo === null || $scope.buyerInfo === ''){
                 newOrder.Buyer = {
                     EmailId : buyerEmail,
                     SellingAccountPrefix : 'SM-CTL'
