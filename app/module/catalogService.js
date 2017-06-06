@@ -3,8 +3,8 @@ angular.module('catalog.keyword')
 
         //var catalogbaseUrl = 'http://localhost/catalogservice/';
         //var platformBaseUrl = 'http://localhost/platform/';
-        var platformBaseUrl = 'http://stompplatform.azurewebsites.net/';
-        var catalogbaseUrl = 'http://stompcatalog.azurewebsites.net/';
+        var platformBaseUrl = 'http://stompplatform-testing.azurewebsites.net/';
+        var catalogbaseUrl = 'http://stompcatalog-testing.azurewebsites.net/';
 
         this.getSkuByKeyword = function (keyword,pageCount,stockType,productTypePrefix,currency) {
             if(productTypePrefix === undefined || productTypePrefix==='')

@@ -9,10 +9,10 @@ function keywordSearching() {
         controller:keywordCtrl
     };
 
-    keywordCtrl.$inject=['$scope','$window','catalogService','server','logger'];
+    keywordCtrl.$inject=['$scope','$window','catalogService','server','logger','$state','$rootScope'];
     return directive;
 
-    function keywordCtrl($scope,$window,catalogService,server,logger) {
+    function keywordCtrl($scope,$window,catalogService,server,logger,$state,$rootScope) {
         $scope.keywordSerach=true;
         $scope.catalogPage=false;
         $scope.dataRecord=[];
@@ -24,6 +24,9 @@ function keywordSearching() {
         $scope.wishList = [];
         $scope.currency = "INR";
         var buyerEmail = server.userInfo.Email;
+        var event1 = "PublishProductTypes";
+        var el = document.getElementById("keyword");
+        el.focus();
 
         var requestDataForBuyer = {
             key : buyerEmail,
@@ -54,6 +57,7 @@ function keywordSearching() {
                 return;
             }
             if(res.productTypesAffected.length > 0){
+                $rootScope.$broadcast(event1, res.productTypesAffected);
                 $scope.showProductTypeBox = true;
                 var y = objectsAreSame($scope.productTypes,res.productTypesAffected);
                 if(!y)
@@ -77,6 +81,13 @@ function keywordSearching() {
             $scope.pageCount = 0;
             catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
         };
+
+        $scope.$on('ProductTypeSelected',function (event,data) {
+            if(data !== undefined && data !== null)
+                $scope.productTypePrefix = data.prefix;
+            $scope.pageCount = 0;
+            catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+        });
 
         $scope.getDataByKeyword=function (keyword) {
             if(keyword === undefined){
@@ -151,19 +162,27 @@ function keywordSearching() {
                logger.success("Added To Cart");
                 var btn = document.getElementById(id);
                 btn.style.backgroundColor = '#F1948A';
+                btn.innerText = 'Added To Cart';
             },function (er) {
                 logger.error("Error : "+er.message);
             });
         };
 
         $scope.getStockType = function (stockType) {
-            $scope.stockType = stockType;
+            if(stockType === false)
+                $scope.stockType = "existingStock";
+            if(stockType === true)
+                $scope.stockType = "preorder";
         };
 
         function objectsAreSame(ary1, ary2) {
             if(ary1 === undefined || ary2 === undefined)
                 return false;
             return (ary1.join('') === ary2.join(''));
+        }
+        
+        $scope.GoToCart = function () {
+            $state.go('catalogClient.cart');
         }
 
     }

@@ -10,12 +10,13 @@ angular.module('sbAdminApp')
                 controller: sidebarController
             };
 
-            sidebarController.$inject=['$scope','$state','server'];
+            sidebarController.$inject=['$scope','$state','server','$rootScope'];
             return directive;
 
-            function sidebarController($scope,$state,server) {
+            function sidebarController($scope,$state,server,$rootScope) {
 
                 $scope.email = server.userInfo.Email;
+                var event1 = 'ProductTypeSelected';
 
                 $scope.check = function (x, state) {
 
@@ -29,5 +30,15 @@ angular.module('sbAdminApp')
                             $state.go(state);
                     }
                 };
+                
+                $scope.$on('PublishProductTypes',function (event,data) {
+                    $scope.productTypes = data;
+                    $scope.showProductTypeBox = true;
+                });
+
+                $scope.productTypeSelected = function (productType) {
+                    if(productType !== null && productType !== undefined)
+                        $rootScope.$broadcast(event1, productType);
+                }
             }
         }]);
