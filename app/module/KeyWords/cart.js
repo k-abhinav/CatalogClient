@@ -39,12 +39,14 @@ function cart() {
             }
             $scope.existingOrdersInDb = res;
             for(var i= 0;i<$scope.existingOrdersInDb.length;i++){
-                for(var j=0;j<$scope.existingOrdersInDb[i].Items.length;j++){
-                    $scope.allOrderItems.push($scope.existingOrdersInDb[i].Items[j]);
+                var validItems = $scope.existingOrdersInDb[i].Items.filter(i=>i.IsDeleted === false);
+                for(var j=0;j<validItems.length;j++){
+                    $scope.allOrderItems.push(validItems[j]);
                 }
             }
-            $scope.wishListPage = true;
-
+            if($scope.allOrderItems.length > 0)
+                $scope.wishListPage = true;
+            else alert("There is no item in your wishlist.");
          },function (er) {
             alert("An error occurred while getting wishlist items. Error : "+er.message);
          });
@@ -112,7 +114,8 @@ function cart() {
                 $scope.newOrder.ShippingAddress = address;
 
                 catalogService.PostBuyerOrders($scope.newOrder).then(function (res) {
-                    alert("Thanks !! Your order has been placed.Someone will contact you soon.You can view these items in orders.");
+                    alert("Thanks !! Your order has been placed . Someone will contact you soon  . You can view your orders in Orders section" +
+                        ".  If you have further questions , please feel free to contact us at : 9810831143 .");
                     $scope.buyerDetails = false;
                     $scope.wishListPage = false;
                     $scope.heading = "Your WishList";

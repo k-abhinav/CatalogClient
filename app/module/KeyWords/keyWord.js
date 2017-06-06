@@ -64,7 +64,7 @@ function keywordSearching() {
                     $scope.productTypes = res.productTypesAffected;
             }
             else $scope.showProductTypeBox = false;
-            if($scope.stockType === "preorder")
+            if($scope.stockType === "all")
                 $scope.showStock = false;
             else $scope.showStock = true;
             $scope.catalogPage=true;
@@ -172,7 +172,7 @@ function keywordSearching() {
             if(stockType === false)
                 $scope.stockType = "existingStock";
             if(stockType === true)
-                $scope.stockType = "preorder";
+                $scope.stockType = "all";
         };
 
         function objectsAreSame(ary1, ary2) {

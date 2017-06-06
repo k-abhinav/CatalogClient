@@ -110,18 +110,19 @@ function PreviousOrders() {
                 }
                 catalogService.GetProductVariantsByCodes(variants).then(function (res) {
                     for(var i=0;i<confirmedOrders.length;i++){
-                        for(var j=0;j<confirmedOrders[i].Items.length;j++){
-                            var variantImage = res.filter(r=>r.code.toLowerCase() === confirmedOrders[i].Items[j].Sku.toLowerCase())[0];
+                        var validItems = confirmedOrders[i].Items.filter(i=>i.IsDeleted === false);
+                        for(var j=0;j<validItems.length;j++){
+                            var variantImage = res.filter(r=>r.code.toLowerCase() === validItems[j].Sku.toLowerCase())[0];
                             if(variantImage !== undefined && variantImage.images[0] !== null && (variantImage.images[0].publicUri !== null)){
-                                $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : confirmedOrders[i].Items[j].Sku,
-                                        Quantity : confirmedOrders[i].Items[j].Quantity,OrderDate:confirmedOrders[i].Items[j].OrderDate,
-                                        Price:confirmedOrders[i].Items[j].ItemCost.Value,Image:variantImage.images[0].publicUri,
+                                $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : validItems[j].Sku,
+                                        Quantity : validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                                        Price:validItems[j].ItemCost.Value,Image:variantImage.images[0].publicUri,
                                         OrderId:confirmedOrders[i].Id});
                             }
                             else
-                                $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : confirmedOrders[i].Items[j].Sku,
-                                    Quantity : confirmedOrders[i].Items[j].Quantity,OrderDate:confirmedOrders[i].Items[j].OrderDate,
-                                    Price:confirmedOrders[i].Items[j].ItemCost.Value,Image:"https://riptide.blob.core.windows.net/thumbnails/noimage.jpg",
+                                $scope.allOrderItems.push({Status : confirmedOrders[i].Status,Sku : validItems[j].Sku,
+                                    Quantity :validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                                    Price:validItems[j].ItemCost.Value,Image:"https://riptide.blob.core.windows.net/thumbnails/noimage.jpg",
                                     OrderId:confirmedOrders[i].Id});
                         }
                     }
@@ -136,7 +137,8 @@ function PreviousOrders() {
         });
 
         $scope.$on('OrderSelected',function (event,data) {
-            var orderItems =  $scope.allOrderItems.filter(f=>f.OrderId === data.Id);
+
+            var orderItems =  $scope.allOrderItems.filter(f=>f.OrderId === data.Id );
             $scope.gridOptions2.data = orderItems;
             $scope.orderItemPage = true;
         })
