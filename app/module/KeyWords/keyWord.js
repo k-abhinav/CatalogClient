@@ -75,13 +75,13 @@ function keywordSearching() {
             alert("An Error Occured. Error : "+er.message);
         };
 
-        $scope.productTypeSelected = function (producttype) {
+        /*$scope.productTypeSelected = function (producttype) {
             if($scope.productType !== undefined && $scope.productType!== null)
                 $scope.productTypePrefix = $scope.productType.prefix;
             $scope.pageCount = 0;
             catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
         };
-
+*/
         $scope.$on('ProductTypeSelected',function (event,data) {
             if(data !== undefined && data !== null)
                 $scope.productTypePrefix = data.prefix;
@@ -171,8 +171,10 @@ function keywordSearching() {
         $scope.getStockType = function (stockType) {
             if(stockType === false)
                 $scope.stockType = "existingStock";
-            if(stockType === true)
+            if(stockType === true){
                 $scope.stockType = "all";
+                catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+            }
         };
 
         function objectsAreSame(ary1, ary2) {

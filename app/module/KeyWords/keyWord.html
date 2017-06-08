@@ -2,14 +2,14 @@
 <div class="col-lg-12" style="margin-left: -10px" id="outerDiv">
     <div class="panel panel-default">
         <div class="panel-heading">
-            Enter Keyword To Find Items i.e. Enter "Necklace" and Press Search.
+            Enter keyword to find items i.e. enter "Necklace" and press search to get the results.
         </div>
         <div class="panel-body">
             <div ng-show="keywordSerach">
                 <form name="keyWordForm" role="form" class="form-inline">
                     <div class="form-group" >
                         <div class="form-group">
-                            <input type="text" ng-model="keyword" style="border-style: solid;border-color:green;" class="form-control" id="keyword" name="keyword" placeholder="Enter Keyword" required>
+                            <input type="text" ng-model="keyword" style="border-style: solid;border-color:red;" class="form-control" id="keyword" name="keyword" placeholder="Enter Keyword" required>
                         </div> &nbsp;&nbsp;&nbsp;&nbsp;
                         <div class="form-group">
                             <button type ="button" class="btn btn-success form-control btn-md" ng-click ="getDataByKeyword(keyword)" >Search</button>
