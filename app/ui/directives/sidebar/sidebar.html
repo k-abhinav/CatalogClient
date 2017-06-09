@@ -17,11 +17,9 @@
         <p class="bg-primary">Email:{{email}}</p>
     </div>
 
-    <div class="bottom-left" ng-show="showProductTypeBox" style="margin-left: 20px;margin-right:10px">
         <label for="productType">Sub Categories</label>
         <select ng-model="productType" id="productType" class="form-control" ng-options="pt.name for pt in productTypes" ng-change="productTypeSelected(productType)">
             <option value="">Select</option>
-        </select>
     </div>
 
 </div>
