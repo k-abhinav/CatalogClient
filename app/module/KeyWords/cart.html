@@ -12,21 +12,22 @@
                             <th>StyleCode</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th>Image</th>
                             <th>Edit Cart</th>
                         </tr>
                         <tr ng-repeat="item in allOrderItems">
                             <td>{{item.Sku}}</td>
                             <td><input style="height:30px;width:50px" type="number" ng-model="item.Quantity" name="qty"></td>
                             <td>{{item.ItemCost.Value}}</td>
-                            <!--td style="max-width: 1000px">
+                            <td style="max-width: 1000px">
                                 <div id="img" style="margin-right: 5px; text-align: center; vertical-align: bottom;">
                                     <label>
-                                        <a href="" ng-click="zoomImage(data.Image.replace('thumbnails','images'))">
-                                            <img src="{{data.Image}}" style=" max-height: 80px; max-width:80px;"/><br/>
+                                        <a href="" ng-click="zoomImage(item.Image.replace('thumbnails','images'))">
+                                            <img src="{{item.Image}}" style=" max-height: 80px; max-width:80px;"/><br/>
                                         </a>
                                     </label>
                                 </div>
-                            </td-->
+                            </td>
 
                             <td><button id="{{'buttonClicked'+$index}}" ng-click="remove(item.Sku,'buttonClicked'+$index)" class="btn-danger">Remove</button></td>
                         </tr>

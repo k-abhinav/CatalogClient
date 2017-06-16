@@ -2,7 +2,7 @@
  * Created by Himanshu on 4/17/2017.
  */
 'use strict';
-app.controller('loginController',['$scope','$state','server', function ($scope,$state,server) {
+app.controller('loginController',['$scope','$state','server','logger', function ($scope,$state,server,logger) {
     $scope.signInForm=true;
     $scope.logoClass=true;
     
@@ -24,7 +24,6 @@ app.controller('loginController',['$scope','$state','server', function ($scope,$
     $scope.login=function () {
         if($scope.auth===undefined){
             if(gapi.auth2===undefined){
-                /*logger.error('Please Refresh The Page Before Logging in');*/
                 return;
             }
             $scope.auth=gapi.auth2.getAuthInstance();
@@ -46,6 +45,24 @@ app.controller('loginController',['$scope','$state','server', function ($scope,$
                 $scope.additionalData.Photo = 'https://riptide.blob.core.windows.net/thumbnails/noimage.jpg';
             }
             server.userInfo = $scope.additionalData;
+
+            var buyerInfo = {
+                emailId : $scope.additionalInfo.U3,
+                sellingAccountPrefix : 'SM-CTL',
+                address : {
+                    name: '',
+                    streetAddress : '',
+                    city : '',
+                    country:'',
+                    zipCode:'',
+                    phone : ''
+                }};
+
+            server.SaveUser(buyerInfo).then(function (res) {
+            },function (er) {
+                logger.error("Error : " + er.message);
+            });
+
             $state.go('catalogClient.keyword');
         };
         var error =function (e) {

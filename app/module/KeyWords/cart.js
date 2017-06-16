@@ -38,22 +38,50 @@ function cart() {
                 return;
             }
             $scope.existingOrdersInDb = res;
+            var variants = [];
+            var validItems = [];
+
             for(var i= 0;i<$scope.existingOrdersInDb.length;i++){
-                var validItems = $scope.existingOrdersInDb[i].Items.filter(i=>i.IsDeleted === false);
+                validItems = $scope.existingOrdersInDb[i].Items.filter(i=>i.IsDeleted === false);
                 for(var j=0;j<validItems.length;j++){
-                    $scope.allOrderItems.push(validItems[j]);
+                    //$scope.allOrderItems.push(validItems[j]);
+                    variants.push(validItems[j].Sku);
                 }
             }
-            if($scope.allOrderItems.length > 0)
-                $scope.wishListPage = true;
-            else alert("There is no item in your wishlist.");
+
+            catalogService.GetProductVariantsByCodes(variants).then(function (res) {
+                for(var j=0;j<validItems.length;j++){
+                    var variantImage = res.filter(r=>r.code.toLowerCase() === validItems[j].Sku.toLowerCase())[0];
+                    if(variantImage !== undefined && variantImage.images[0] !== null && (variantImage.images[0].publicUri !== null)){
+                        $scope.allOrderItems.push({Sku : validItems[j].Sku,
+                            Quantity : validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                    }
+                    else
+                        $scope.allOrderItems.push({Sku : validItems[j].Sku,
+                            Quantity :validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                }
+                if($scope.allOrderItems.length > 0)
+                    $scope.wishListPage = true;
+                else alert("There is no item in your wishlist.");
+
+            },function (er) {
+                logger.error("Could not get images. Error : "+er.message);
+                $scope.allOrderItems.push({Sku : validItems[j].Sku,
+                    Quantity :validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+
+                if($scope.allOrderItems.length > 0)
+                    $scope.wishListPage = true;
+                else alert("There is no item in your wishlist.");
+
+            });
+
          },function (er) {
             alert("An error occurred while getting wishlist items. Error : "+er.message);
          });
 
+
         catalogService.CheckIfBuyerExists(requestDataForBuyer).then(function (res) {
             $scope.buyerInfo = res;
-
         },function (er) {
          alert("Could not get buyer from db");
         });
@@ -83,7 +111,6 @@ function cart() {
         
         
         $scope.saveOrder = function () {
-
             var orderLineItems  = [];
             for(var i = 0;i<$scope.allOrderItems.length;i++){
                 orderLineItems.push({Sku:$scope.allOrderItems[i].Sku,Quantity:$scope.allOrderItems[i].Quantity,

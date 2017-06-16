@@ -38,6 +38,20 @@ function server($http, $q, logger){
         });
         return deferred.promise;
     };
-    
+
+    serverFactory.SaveUser = function (buyer) {
+        var baseUrl = 'http://localhost/platform/';
+        //var baseUrl = 'http://stompplatform-testing.azurewebsites.net/';
+        var action = 'api/Direct/CreateBuyer';
+        var deferred = $q.defer();
+
+        $http.post(baseUrl + action, buyer).success(function (response,status) {
+            deferred.resolve(response);
+        }).error(function (err) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
     return serverFactory;
 }
