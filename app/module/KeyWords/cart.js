@@ -55,10 +55,12 @@ function cart() {
                     if(variantImage !== undefined && variantImage.images[0] !== null && (variantImage.images[0].publicUri !== null)){
                         $scope.allOrderItems.push({Sku : validItems[j].Sku,
                             Quantity : validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                            ItemCost:validItems[j].ItemCost,Image:variantImage.images[0].publicUri});
                     }
                     else
                         $scope.allOrderItems.push({Sku : validItems[j].Sku,
                             Quantity :validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                            ItemCost:validItems[j].ItemCost,Image:"https://riptide.blob.core.windows.net/thumbnails/noimage.jpg"});
                 }
                 if($scope.allOrderItems.length > 0)
                     $scope.wishListPage = true;
@@ -68,6 +70,7 @@ function cart() {
                 logger.error("Could not get images. Error : "+er.message);
                 $scope.allOrderItems.push({Sku : validItems[j].Sku,
                     Quantity :validItems[j].Quantity,OrderDate:validItems[j].OrderDate,
+                    ItemCost:validItems[j].ItemCost,Image:"https://riptide.blob.core.windows.net/thumbnails/noimage.jpg"});
 
                 if($scope.allOrderItems.length > 0)
                     $scope.wishListPage = true;
