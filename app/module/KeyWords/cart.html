@@ -11,14 +11,16 @@
                         <tr>
                             <th>StyleCode</th>
                             <th>Quantity</th>
-                            <th>Price</th>
+                            <th>Price/Qty</th>
+                            <th>Total Price</th>
                             <th>Image</th>
                             <th>Edit Cart</th>
                         </tr>
                         <tr ng-repeat="item in allOrderItems">
                             <td>{{item.Sku}}</td>
-                            <td><input style="height:30px;width:50px" type="number" ng-model="item.Quantity" name="qty"></td>
+                            <td><input style="height:30px;width:50px" type="number" ng-model="item.Quantity" name="qty" min="1"></td>
                             <td>{{item.ItemCost.Value}}</td>
+                            <td>{{item.ItemCost.Value * item.Quantity}}</td>
                             <td style="max-width: 1000px">
                                 <div id="img" style="margin-right: 5px; text-align: center; vertical-align: bottom;">
                                     <label>
