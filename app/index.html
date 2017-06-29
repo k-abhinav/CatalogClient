@@ -93,6 +93,16 @@
 
 </div>
 
+<script type="text/javascript">
+    var query = window.location.search.substring(1);
+    var obj =JSON.parse('{"' + decodeURI(query.replace(/&/g, "\",\"").replace(/=/g,"\":\"")) + '"}');
+
+    window.urlParams = {};
+    window.urlParams.param = obj;
+
+   /* var q = "?keyword=" + obj.keyword + "&productType="
+        + obj.productType + "&pageCount=" + obj.pageCount + "&sorting=" + obj.sorting + "&isreplenishable=" + obj.isreplenishable+"&discount="+obj.discount+"&currency="+obj.currency;
+    */
+</script>
 </body>
 
-</html>

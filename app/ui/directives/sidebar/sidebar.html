@@ -18,8 +18,9 @@
     </div>
 
     <div class="bottom-left" ng-show="showProductTypeBox" style="margin-left: 15px;margin-right:3px">
-        <ul class="nav in" id="productType">
-            <li style="margin-bottom: -20px;margin-top: 5px" ng-repeat="productType in productTypes">
+        <strong style="margin-left: inherit;">Filter Search</strong>
+        <ul class="nav in" id="productType" >
+            <li style="display:inline;line-height: normal;" ng-repeat="productType in productTypes">
                 <a style="font-size:13px" ng-click="productTypeSelected(productType)">{{productType.name}}</a>
             </li>
             <!--a ng-repeat="productType in productTypes" ng-click="productTypeSelected(productType)">{{productType.name}}</a-->
