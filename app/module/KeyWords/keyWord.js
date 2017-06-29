@@ -13,7 +13,11 @@ function keywordSearching() {
     return directive;
 
     function keywordCtrl($scope,$window,catalogService,server,logger,$state,$rootScope) {
-        $scope.keywordSerach=true;
+
+        $scope.keywordSerach = false;
+        var obj = window.urlParams.param;
+
+        //$scope.keywordSerach=true;
         $scope.catalogPage=false;
         $scope.dataRecord=[];
         $scope.pageCount = 1;
@@ -28,17 +32,6 @@ function keywordSearching() {
         var el = document.getElementById("keyword");
         el.focus();
 
-        var requestDataForBuyer = {
-            key : buyerEmail,
-            value : "SM-CTL"
-        };
-        catalogService.CheckIfBuyerExists(requestDataForBuyer).then(function (res) {
-            $scope.buyerInfo = res;
-
-        },function (er) {
-            alert("Could not get buyer from db.Error : "+er.message);
-        });
-
         var success=function (res) {
             if(res===null || res.skuData.length === 0)
             {
@@ -50,7 +43,7 @@ function keywordSearching() {
                     return;
                 }
                 alert("Please Enter Correct Keyword");
-                $scope.catalogPage=false;
+                //$scope.catalogPage=false;
                 $scope.priceShow = false;
                 $scope.showStock = false;
                 $scope.pageCount = 1;
@@ -70,23 +63,33 @@ function keywordSearching() {
             $scope.catalogPage=true;
             $scope.dataRecord=res.skuData;
             $scope.priceShow = true;
+            if(obj.pageCount === 1)
+                $scope.page = false;
         };
         var error=function (er) {
             alert("An Error Occured. Error : "+er.message);
         };
 
-        /*$scope.productTypeSelected = function (producttype) {
-            if($scope.productType !== undefined && $scope.productType!== null)
-                $scope.productTypePrefix = $scope.productType.prefix;
-            $scope.pageCount = 0;
-            catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+        catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency)
+            .then(success,error);
+
+
+        var requestDataForBuyer = {
+            key : buyerEmail,
+            value : "SM-CTL"
         };
-*/
+        catalogService.CheckIfBuyerExists(requestDataForBuyer).then(function (res) {
+            $scope.buyerInfo = res;
+
+        },function (er) {
+            alert("Could not get buyer from db.Error : "+er.message);
+        });
+
         $scope.$on('ProductTypeSelected',function (event,data) {
-            if(data !== undefined && data !== null)
-                $scope.productTypePrefix = data.prefix;
-            $scope.pageCount = 0;
-            catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+            $scope.productTypePrefix = data.prefix;
+            obj.pageCount = 1;
+            catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency)
+                .then(success,error);
         });
 
         $scope.getDataByKeyword=function (keyword) {
@@ -112,19 +115,25 @@ function keywordSearching() {
         };
 
         $scope.Next = function () {
-            $scope.pageCount++;
-            //$scope.priceShow = false;
+            obj.pageCount++;
             $scope.page = true;
-
-            catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+            if($scope.productTypePrefix === "")
+                catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency)
+                .then(success,error);
+            else catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency)
+                .then(success,error);
         };
 
         $scope.Previous = function () {
-            $scope.pageCount--;
-            //$scope.priceShow = false;
-            if($scope.pageCount === 1)
-                $scope.page = false;
-            catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+            if(obj.pageCount > 1)
+                obj.pageCount--;
+
+            $scope.page = true;
+            if($scope.productTypePrefix === "")
+                catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency)
+                    .then(success,error);
+            else catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency)
+                .then(success,error);
         };
 
         $scope.addToCart = function (code,qty,thumbUri,price,id) {
