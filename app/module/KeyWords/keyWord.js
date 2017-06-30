@@ -70,7 +70,7 @@ function keywordSearching() {
             alert("An Error Occured. Error : "+er.message);
         };
 
-        catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency)
+        catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency,obj.isreplenishable)
             .then(success,error);
 
 
@@ -88,7 +88,7 @@ function keywordSearching() {
         $scope.$on('ProductTypeSelected',function (event,data) {
             $scope.productTypePrefix = data.prefix;
             obj.pageCount = 1;
-            catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency)
+            catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency,obj.isreplenishable)
                 .then(success,error);
         });
 
@@ -118,9 +118,9 @@ function keywordSearching() {
             obj.pageCount++;
             $scope.page = true;
             if($scope.productTypePrefix === "")
-                catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency)
+                catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency,obj.isreplenishable)
                 .then(success,error);
-            else catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency)
+            else catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency,obj.isreplenishable)
                 .then(success,error);
         };
 
@@ -130,9 +130,9 @@ function keywordSearching() {
 
             $scope.page = true;
             if($scope.productTypePrefix === "")
-                catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency)
+                catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,obj.productType,obj.currency,obj.isreplenishable)
                     .then(success,error);
-            else catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency)
+            else catalogService.getSkuByKeyword(obj.keyword,obj.pageCount,$scope.stockType,$scope.productTypePrefix,obj.currency,obj.isreplenishable)
                 .then(success,error);
         };
 
@@ -182,7 +182,7 @@ function keywordSearching() {
                 $scope.stockType = "existingStock";
             if(stockType === true){
                 $scope.stockType = "all";
-                catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency).then(success,error);
+                catalogService.getSkuByKeyword($scope.modifiedKeyword,$scope.pageCount=1,$scope.stockType,$scope.productTypePrefix,$scope.currency,obj.isreplenishable).then(success,error);
             }
         };
 

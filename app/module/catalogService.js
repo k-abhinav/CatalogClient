@@ -6,11 +6,11 @@ angular.module('catalog.keyword')
         var platformBaseUrl = 'http://stompplatform-testing.azurewebsites.net/';
         var catalogbaseUrl = 'http://stompcatalog-testing.azurewebsites.net/';
 
-        this.getSkuByKeyword = function (keyword,pageCount,stockType,productTypePrefix,currency) {
+        this.getSkuByKeyword = function (keyword,pageCount,stockType,productTypePrefix,currency,isreplenishable) {
             if(productTypePrefix === undefined || productTypePrefix==='')
                 productTypePrefix =null;
-            var url = "?pageCount="+pageCount + "&keyword=" + keyword + "&productType=" + productTypePrefix + "&sorting=undefined" + "&discount=undefined"+"&currency="+currency;
-            var action = 'api/publicCatalog/GetSkuByTitleKeyword/' + stockType + '/' + url;
+            var url = "?pageCount="+pageCount + "&keyword=" + keyword + "&productType=" + productTypePrefix + "&sorting=undefined" + "&discount=undefined"+"&currency="+currency + "&isreplenishable=" + isreplenishable;
+            var action = 'api/publicCatalog/GetSkuByKeyword/' + url;
             return server.get(catalogbaseUrl,action);
         };
 
