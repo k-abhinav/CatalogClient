@@ -58,7 +58,7 @@ app.controller('loginController',['$scope','$state','server','logger', function 
                     phone : ''
                 }};
 
-            server.SaveUser(buyerInfo).then(function (res) {
+            server.SaveBuyer(buyerInfo).then(function (res) {
                 //logger.success("Buyer Saved");
             },function (er) {
                 logger.error("Error : " + er.message);

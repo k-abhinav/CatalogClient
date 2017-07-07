@@ -39,7 +39,7 @@ function server($http, $q, logger){
         return deferred.promise;
     };
 
-    serverFactory.SaveUser = function (buyer) {
+    serverFactory.SaveBuyer = function (buyer) {
         var baseUrl = 'http://localhost/platform/';
         //var baseUrl = 'http://stompplatform-testing.azurewebsites.net/';
         var action = 'api/Direct/CreateBuyer';
