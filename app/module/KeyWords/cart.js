@@ -32,7 +32,7 @@ function cart() {
             value : "SM-CTL"
         };
 
-        catalogService.GetOrdersForBuyer([$scope.buyerEmail],"SM-CTL","Created").then(function (res) {
+        catalogService.GetOrdersForBuyer([$scope.buyerEmail],"Created","SM-CTL").then(function (res) {
             if(res.length === 0){
                 alert("There is no item in your wishlist.");
                 return;

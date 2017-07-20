@@ -94,7 +94,7 @@ function PreviousOrders() {
             }
         };
 
-        catalogService.GetOrdersForBuyer(requestData,"SM-CTL","all").then(function (response) {
+        catalogService.GetOrdersForBuyer(requestData,"all","SM-CTL").then(function (response) {
             if(response.length > 0){
                 response = JSON.resolveReferences(response);
                 var confirmedOrders = response.filter(f=>f.Status.toLowerCase() !== "created");

@@ -25,8 +25,8 @@ angular.module('catalog.keyword')
             return server.post(platformBaseUrl,url,cart);
         };
 
-        this.GetOrdersForBuyer = function (email,sellingAccount,status) {
-            var url = 'api/Direct/GetOrders/' + sellingAccount + '/' +status;
+        this.GetOrdersForBuyer = function (email,status,sellingAccount,) {
+            var url = 'api/Direct/GetOrders/' + status + '/' +sellingAccount;
             return server.post(platformBaseUrl,url,email);
         };
 
